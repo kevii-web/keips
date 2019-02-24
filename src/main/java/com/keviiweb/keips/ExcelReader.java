@@ -10,58 +10,103 @@ import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.SuppressForbidden;
+import org.apache.poi.xssf.eventusermodel.XSSFReader;
 
+import java.util.*;
 /**
  * Hello world!
  *
  * Code adapted from: https://www.mkyong.com/java/apache-poi-reading-and-writing-excel-file-in-java/
  * and https://poi.apache.org/components/spreadsheet/quick-guide.html
  */
-public class ExcelReader
-{
+
+public class ExcelReader {
+	
+	private FileInputStream excelFile;
+	private Workbook workbook;
+	private DataFormatter formatter;
+	
     public static void main( String[] args ) {
-        if (args.length < 2) {
-            System.out.println("Usage: run java ExcelReader <excel file in .xlsx format> <password>");
-            return;
-        }
+    	
+    	ExcelReader newReader = new ExcelReader();
+    	newReader.run();
+    	
+	}
+	
+	private void run() {
+		Scanner sc = new Scanner(System.in);
 
-        final String FILENAME = args[0];
-        final String password = args[1];
-        System.out.println( "Reading from " + FILENAME + " with password: " + password);
+		while (true) {
+			String fileName = sc.nextLine();
+			System.out.println("User input: " + fileName);
 
-        try {
-            FileInputStream excelFile = new FileInputStream(new File(FILENAME));
-            Workbook workbook = WorkbookFactory.create(excelFile, password);
-            DataFormatter formatter = new DataFormatter();
-            Sheet mainSheet = workbook.getSheetAt(0);
-            Sheet bonusSheet = workbook.getSheetAt(1);
+			//terminate if user input is -1
+			if (fileName.equals("-1")) {
+				System.out.println("Terminating program ...");
+				return;
+			}
 
-            Iterator<Row> iterator = mainSheet.iterator();
-            iterator.next();
+			if (!parseFile(fileName)) {
+				System.out.println("Error parsing file.");
+			} else {
+				System.out.println("Successfully parsed file.");
+			}
+		}
+	}
+	
+	//takes in as input the filename and parses the file
+	private boolean parseFile(String fileName) {
+    	//set up the excelfile
+    	try {
+    		excelFile = new FileInputStream(new File(fileName));
+    		workbook = WorkbookFactory.create(excelFile);
+    		formatter = new DataFormatter();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+			return false;
+		}
 
-            while (iterator.hasNext()) {
-                Row currentRow = iterator.next();
-                Iterator<Cell> cellIterator = currentRow.iterator();
-                List<String> nameRow = new ArrayList<>();
+		Iterator<Sheet> sheetiterator = workbook.sheetIterator();
+		
+    	int sheetCount = 0;
+    	while (sheetiterator.hasNext()) {
+    		parseSheet(sheetiterator.next());
+    		sheetCount++;
+		}
+		
+		System.out.println("Successfully parsed all sheets : " + sheetCount + " sheets.");
+    	return true;
+	}
+	
+	//takes in as input a sheet and parses it
+	private boolean parseSheet(Sheet sheet) {
+    	Iterator<Row> iterator = sheet.iterator();
+    	iterator.next();
 
-                while (cellIterator.hasNext()) {
-                    Cell currentCell = cellIterator.next();
-                    String cellText = formatter.formatCellValue(currentCell);
-                    nameRow.add(cellText);
-                }
-                processName(nameRow);
-            }
+		while (iterator.hasNext()) {
+			Row currentRow = iterator.next();
+			//create an iterator for the row
+			Iterator<Cell> cellIterator = currentRow.iterator();
+			List<String> nameRow = new ArrayList<>();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void processName(List<String> row) {
+			while (cellIterator.hasNext()) {
+				Cell currentCell = cellIterator.next();
+				String cellText = formatter.formatCellValue(currentCell);
+				nameRow.add(cellText);
+			}
+			processName(nameRow);
+		}
+		return true;
+	}
+	
+    private void processName(List<String> row) {
         String nusnet = row.get(0);
         if (!nusnet.isEmpty()) {
             System.out.println(row);
