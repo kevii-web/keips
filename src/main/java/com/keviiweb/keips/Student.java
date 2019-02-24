@@ -14,7 +14,8 @@ public class Student {
     private String matricNum;
     private Gender gender;
     private int semester;
-    List<CCA> ccaList;
+    protected List<CCA> ccaList;
+    private OSAPoints osaPoints;
 
     public Student(String nusnet, String name, String matric, String sex) {
         this.nusnet = nusnet;
@@ -39,7 +40,7 @@ public class Student {
     public static void main(String[] args) {
         // Serialize
         Student test = new Student("E0175519", "Ong Yu-He", "A0167086W", "M");
-        CCA testCCA = new CCA("Flag", 10, 10, 10);
+        CCA testCCA = new CCA("Flag", "Admin", 10, 10, 10);
         test.ccaList.add(testCCA);
         String result = Student.toJson(test);
 
@@ -58,6 +59,11 @@ public class Student {
             studentInfo.append(cca);
         }
         return studentInfo.toString();
+    }
+    
+    public int calculateOsaPoints () {
+        osaPoints = new OSAPoints(this.ccaList);
+        return osaPoints.calculate();
     }
 }
 
