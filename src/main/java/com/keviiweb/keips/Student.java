@@ -15,6 +15,7 @@ public class Student {
     private Gender gender;
     private int semester;
     protected List<CCA> ccaList;
+    protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
 
     public Student(String nusnet, String name, String matric, String sex) {
@@ -23,7 +24,16 @@ public class Student {
         this.matricNum = matric;
         this.gender = Gender.getGender(sex);
         this.ccaList = new ArrayList<>();
+        this.bonusCcaList = new ArrayList<>();
     }
+    
+    public void addToBonusCcaList(BonusCCA cca) {
+    	this.bonusCcaList.add(cca);
+	}
+    
+    public void addToCcaList(CCA newCca) {
+    	this.ccaList.add(newCca);
+	}
 
     public static String toJson(Student student) {
         Gson gson = new Gson();
@@ -53,10 +63,11 @@ public class Student {
     }
 
     public String toString() {
-        String student = String.format("NUSNET: %s, Name = %s, Matric = %s\nCCAS: ", nusnet, name, matricNum);
+        String student = String.format("NUSNET: %s, Name = %s, Matric = %s\nCCAS:\n", nusnet, name, matricNum);
         StringBuilder studentInfo = new StringBuilder(student);
         for (CCA cca : ccaList) {
             studentInfo.append(cca);
+            studentInfo.append("\n");
         }
         return studentInfo.toString();
     }
@@ -65,6 +76,31 @@ public class Student {
         osaPoints = new OSAPoints(this.ccaList);
         return osaPoints.calculate();
     }
+    
+    public String getName() {
+    	return this.name;
+	}
+	
+	public String getnusnet() {
+    	return this.nusnet;
+	}
+	
+	public String getMatricNum() {
+    	return this.matricNum;
+	}
+	
+	public String getTotalPoints() { return String.valueOf(calculateTotalPoints());}
+	
+	public int calculateTotalPoints() {
+    	int i = 0;
+    	for (CCA cca : ccaList) {
+    		i += cca.getTotalPoints();
+		}
+		for (BonusCCA bonuscca : bonusCcaList) {
+    		i+= bonuscca.getPts();
+		}
+		return i;
+	}
 }
 
 enum Gender {
