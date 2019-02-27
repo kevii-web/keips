@@ -57,6 +57,11 @@ public class ExcelReader {
 				manager.printStudentList();
 				continue;
 			}
+			
+			if (fileName.equals("printtojson")) {
+				System.out.println(manager.printasjson());
+				continue;
+			}
 
 			//creates a new excel file called output.xlsx and prints out the students total points
 			if (fileName.equals("printtoexcel")) {
@@ -235,4 +240,5 @@ public class ExcelReader {
 		cell = row.createCell(2);
 		cell.setCellValue(student.getTotalPoints());
 	}
+	
 }

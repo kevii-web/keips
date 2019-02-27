@@ -3,6 +3,7 @@ package com.keviiweb.keips;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.HashSet;
+import java.lang.StringBuilder;
 
 public class StudentManager {
 	
@@ -113,5 +114,15 @@ public class StudentManager {
 	
 	public List<Student> getAllStudents() {
 		return this.studentList;
+	}
+	
+	
+	//converts the students list into a json object and returns it
+	public String printasjson() {
+		StringBuilder studentString = new StringBuilder();
+		for (int i = 0; i < studentList.size(); i++) {
+			studentString.append(Student.toJson(studentList.get(i)));
+		}
+		return studentString.toString();
 	}
 }
