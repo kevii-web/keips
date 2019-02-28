@@ -13,7 +13,7 @@ public class Student {
     private String name;
     private String matricNum;
     private Gender gender;
-    private int semester;
+    protected int semester;
     protected List<CCA> ccaList;
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
@@ -74,7 +74,7 @@ public class Student {
     
     public int calculateOsaPoints () {
         osaPoints = new OSAPoints(this.ccaList);
-        return osaPoints.calculate();
+        return osaPoints.calculate(this.semester);
     }
     
     public String getName() {
