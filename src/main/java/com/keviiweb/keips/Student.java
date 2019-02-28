@@ -73,11 +73,7 @@ public class Student {
     //calculates the Osa points based on the semester he/she came in
     public int calculateOsaPoints () {
         osaPoints = new OSAPoints(this.ccaList);
-        if (this.semester == "1") {
-            return osaPoints.calculate();
-        } else {
-            return osaPoints.calculateForSemTwo();
-        }
+        return osaPoints.calculate(Integer.parseInt(this.semester));
     }
     
     public String getName() {

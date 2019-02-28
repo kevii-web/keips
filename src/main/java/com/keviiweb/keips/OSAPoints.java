@@ -21,63 +21,74 @@ public class OSAPoints {
         totalOsaPoints = 0;
     }
     
-    public int calculate() {
+    public int calculate(int sem) {
         Collections.sort(ccaList, new SortTotalPoints());
         int currentCcaAdded = 0;
         int numAdmin = 0;
         int numCulture = 0;
         int numSports = 0;
         
-        if(haveContrasting()) {
-            this.haveContrasting = true;
-            List<CCA> modifiedList = modifyList();
-            Collections.sort(modifiedList, new SortTotalPoints());
-            
-            for (int k = 0; k < modifiedList.size(); k++) {
-                if(currentCcaAdded == TOTAL_CCA_USED_FOR_POINTS) {
+        if(sem == 1) {
+            if(haveContrasting()) {
+                this.haveContrasting = true;
+                List<CCA> modifiedList = modifyList();
+                Collections.sort(modifiedList, new SortTotalPoints());
+
+                for (int k = 0; k < modifiedList.size(); k++) {
+                    if(currentCcaAdded == TOTAL_CCA_USED_FOR_POINTS) {
+                        return totalOsaPoints;
+                    }
+                    CCA currentCCA = modifiedList.get(k);
+                    String currentCategory = currentCCA.getCategory();
+
+                    if(currentCategory.equals("Admin")) {
+                        if(numAdmin == MAX_CCA_CATEGORY) {
+                            continue;
+                        } else {
+                            totalOsaPoints += currentCCA.getTotalPoints();
+                            numAdmin++;
+                            currentCcaAdded++;
+                        }
+                    } else if(currentCategory.equals("Culture")) {
+                        if(numCulture == MAX_CCA_CATEGORY) {
+                            continue;
+                        } else {
+                            totalOsaPoints += currentCCA.getTotalPoints();
+                            numCulture++;
+                            currentCcaAdded++;
+                        }
+                    } else {
+                        if(numSports == MAX_CCA_CATEGORY) {
+                            continue;
+                        } else {
+                            totalOsaPoints += currentCCA.getTotalPoints();
+                            numSports++;
+                            currentCcaAdded++;
+                        }
+                    }
+                }
+            } else {
+                this.haveContrasting = false;
+                for(int j = 0; j < TOTAL_CCA_USED_FOR_POINTS; j++) {
+                    totalOsaPoints += ccaList.get(j).getTotalPoints();
+                }
+                if(totalOsaPoints > CCA_CATEGORY_CAP) {
+                    return CCA_CATEGORY_CAP;
+                } else {
                     return totalOsaPoints;
                 }
-                CCA currentCCA = modifiedList.get(k);
-                String currentCategory = currentCCA.getCategory();
-                
-                if(currentCategory.equals("Admin")) {
-                    if(numAdmin == MAX_CCA_CATEGORY) {
-                        continue;
-                    } else {
-                        totalOsaPoints += currentCCA.getTotalPoints();
-                        numAdmin++;
-                        currentCcaAdded++;
-                    }
-                } else if(currentCategory.equals("Culture")) {
-                    if(numCulture == MAX_CCA_CATEGORY) {
-                        continue;
-                    } else {
-                        totalOsaPoints += currentCCA.getTotalPoints();
-                        numCulture++;
-                        currentCcaAdded++;
-                    }
-                } else {
-                    if(numSports == MAX_CCA_CATEGORY) {
-                        continue;
-                    } else {
-                        totalOsaPoints += currentCCA.getTotalPoints();
-                        numSports++;
-                        currentCcaAdded++;
-                    }
-                }
             }
+            return totalOsaPoints;
+        } else if (sem == 2) {
+            for(int p = 0; p < 4; p++) {
+                if(p < ccaList.size())
+                    totalOsaPoints += ccaList.get(p).getTotalPoints(); 
+            }
+            return totalOsaPoints;
         } else {
-            this.haveContrasting = false;
-            for(int j = 0; j < TOTAL_CCA_USED_FOR_POINTS; j++) {
-                totalOsaPoints += ccaList.get(j).getTotalPoints();
-            }
-            if(totalOsaPoints > CCA_CATEGORY_CAP) {
-                return CCA_CATEGORY_CAP;
-            } else {
-                return totalOsaPoints;
-            }
+            System.out.println("Invalid Semester Input. You did not stay in hall this sem. Be gone");
+            return 0;
         }
-        return totalOsaPoints;
     }
 
     /**
@@ -145,11 +156,5 @@ public class OSAPoints {
         return modifiedList;
     }
 
-    public int calculateForSemTwo() {
-        int i = 0;
-        for (CCA cca: ccaList) {
-            i += cca.getTotalPoints();
-        }
-        return i;
-    }
+
 }
