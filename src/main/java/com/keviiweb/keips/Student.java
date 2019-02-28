@@ -9,19 +9,18 @@ import com.google.gson.Gson;
  * Student class to represent each student's details and his/her list of CCAs.
  */
 public class Student {
-    private String nusnet;
+    private String nusnetmatric;
     private String name;
-    private String matricNum;
     private Gender gender;
-    private int semester;
+    private String semester;
     protected List<CCA> ccaList;
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
 
-    public Student(String nusnet, String name, String matric, String sex) {
-        this.nusnet = nusnet;
+    public Student(String nusnetmatric, String name, String sex, String semester) {
+        this.nusnetmatric = nusnetmatric;
         this.name = name;
-        this.matricNum = matric;
+        this.semester = semester;
         this.gender = Gender.getGender(sex);
         this.ccaList = new ArrayList<>();
         this.bonusCcaList = new ArrayList<>();
@@ -49,7 +48,7 @@ public class Student {
 
     public static void main(String[] args) {
         // Serialize
-        Student test = new Student("E0175519", "Ong Yu-He", "A0167086W", "M");
+        Student test = new Student("E0175519", "Ong Yu-He", "M", "1");
         CCA testCCA = new CCA("Flag", "Admin", 10, 10, 10);
         test.ccaList.add(testCCA);
         String result = Student.toJson(test);
@@ -63,7 +62,7 @@ public class Student {
     }
 
     public String toString() {
-        String student = String.format("NUSNET: %s, Name = %s, Matric = %s\nCCAS:\n", nusnet, name, matricNum);
+        String student = String.format("NUSNET: %s, Name = %s, Matric = %s\nCCAS:\n", nusnetmatric, name);
         StringBuilder studentInfo = new StringBuilder(student);
         for (CCA cca : ccaList) {
             studentInfo.append(cca);
@@ -71,24 +70,24 @@ public class Student {
         }
         return studentInfo.toString();
     }
-    
+    //calculates the Osa points based on the semester he/she came in
     public int calculateOsaPoints () {
         osaPoints = new OSAPoints(this.ccaList);
-        return osaPoints.calculate();
+        if (this.semester == "1") {
+            return osaPoints.calculate();
+        } else {
+            return osaPoints.calculateForSemTwo();
+        }
     }
     
     public String getName() {
     	return this.name;
 	}
 	
-	public String getnusnet() {
-    	return this.nusnet;
+	public String getnusnetmatric() {
+    	return this.nusnetmatric;
 	}
-	
-	public String getMatricNum() {
-    	return this.matricNum;
-	}
-	
+
 	public String getTotalPoints() { return String.valueOf(calculateTotalPoints());}
 	
 	public int calculateTotalPoints() {

@@ -144,4 +144,12 @@ public class OSAPoints {
         }
         return modifiedList;
     }
+
+    public int calculateForSemTwo() {
+        int i = 0;
+        for (CCA cca: ccaList) {
+            i += cca.getTotalPoints();
+        }
+        return i;
+    }
 }
