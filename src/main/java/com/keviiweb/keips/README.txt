@@ -23,6 +23,7 @@ Commands supported:
 print - prints out the student list into console
 printtoexcel - prints out the students nusnet and matric and totalpoints to an excel file
 -1 - terminates the programme
+printtojson - prints out the students as a json object 
 
 
 

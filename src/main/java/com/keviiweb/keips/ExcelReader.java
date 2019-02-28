@@ -1,14 +1,18 @@
 package com.keviiweb.keips;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -26,10 +30,13 @@ public class ExcelReader {
 	private Workbook workbook;
 	private DataFormatter formatter;
 	private StudentManager manager;
-
+	
+	public static final String MASTER_FILE = "READDATA.txt";
+	public static final String DIRECTORY_SHEET = "sheet/";
 	public static final int EXCELSHEET_MAIN_INDEX = 0;
 	public static final int EXCELSHEET_BONUS_INDEX = 1;
 
+	
 	public static void main(String[] args) {
 
 		ExcelReader newReader = new ExcelReader();
@@ -52,9 +59,35 @@ public class ExcelReader {
 				return;
 			}
 			
+			//all in one method to read all files
+			if (fileName.equals("readallfiles")) {
+				
+				try {
+					File masterfile = new File(DIRECTORY_SHEET + MASTER_FILE);
+					FileReader reader = new FileReader(masterfile);
+					BufferedReader br = new BufferedReader(reader);
+					String s = br.readLine();
+					parseResidentList(DIRECTORY_SHEET + s);
+					s = br.readLine();
+					while (s != null) {
+						parseFile(DIRECTORY_SHEET +s);
+						s = br.readLine();
+					}
+					continue;
+				} catch (IOException e) {
+					System.out.println("Cannot find " + DIRECTORY_SHEET + MASTER_FILE);
+				}
+			}
+			
 			//print out to console
 			if (fileName.equals("print")) {
 				manager.printStudentList();
+				continue;
+			}
+			
+			//print to a json object
+			if (fileName.equals("printtojson")) {
+				System.out.println(manager.printasjson());
 				continue;
 			}
 
@@ -235,4 +268,5 @@ public class ExcelReader {
 		cell = row.createCell(2);
 		cell.setCellValue(student.getTotalPoints());
 	}
+	
 }
