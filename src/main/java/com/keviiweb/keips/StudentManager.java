@@ -10,19 +10,18 @@ public class StudentManager {
 	private List<Student> studentList = new LinkedList<>();
 	private HashSet<String> nusnetSet = new HashSet<>();
 	
-	public static final int EXCELSHEET_NUSNET_INDEX = 0;
-	public static final int EXCELSHEET_MATRIC_INDEX = 1;
-	public static final int EXCELSHEET_NAME_INDEX = 2;
-	public static final int EXCELSHEET_GENDER_INDEX = 3;
-	public static final int EXCELSHEET_SEMESTER_INDEX = 4;
-	public static final int EXCELSHEET_CATEGORY_INDEX = 5;
-	public static final int EXCELSHEET_CCANAME_INDEX = 6;
-	public static final int EXCELSHEET_ATTENDANCE_INDEX = 7;
-	public static final int EXCELSHEET_PERFORMANCE_INDEX = 8;
-	public static final int EXCELSHEET_OUTSTANDING_INDEX = 9;
+	public static final int EXCELSHEET_NUSNETMATRIC_INDEX = 0;
+	public static final int EXCELSHEET_NAME_INDEX = 1;
+	public static final int EXCELSHEET_GENDER_INDEX = 2;
+	public static final int EXCELSHEET_SEMESTER_INDEX = 3;
+	public static final int EXCELSHEET_CATEGORY_INDEX = 4;
+	public static final int EXCELSHEET_CCANAME_INDEX = 5;
+	public static final int EXCELSHEET_ATTENDANCE_INDEX = 6;
+	public static final int EXCELSHEET_PERFORMANCE_INDEX = 7;
+	public static final int EXCELSHEET_OUTSTANDING_INDEX = 8;
 	
-	public static final int EXCELSHEET_BONUS_INDEX = 3;
-	public static final int EXCELSHEET_BONUS_DESCP_INDEX = 4;
+	public static final int EXCELSHEET_BONUS_INDEX = 2;
+	public static final int EXCELSHEET_BONUS_DESCP_INDEX = 3;
 	
 	/*
 	 *Takes in the data of a student and calculates the OSA points as well as the room draw points
@@ -30,11 +29,11 @@ public class StudentManager {
 	 *Returns updated student object
 	 */
 	public void ProcessStudent(List<String> nameRow, int sheetNumber) {
-		String nusnet = nameRow.get(EXCELSHEET_NUSNET_INDEX);
+		String nusnet = nameRow.get(EXCELSHEET_NUSNETMATRIC_INDEX);
 		Student thisStudent = null;
 		int i;
 		for (i = 0; i < studentList.size(); i++) {
-			if (!nusnet.equals(studentList.get(i).getnusnet())) {
+			if (!nusnet.equals(studentList.get(i).getnusnetmatric())) {
 				continue;
 			} else {	//once a student is found, start to process the info
 				thisStudent = studentList.get(i);
@@ -95,7 +94,7 @@ public class StudentManager {
 	public void addToStudentList(Student student) {
 		//check that the resident is not already inside the list of residents
 		//coz i was too lazy and my test data has duplicates
-		String nusnetNum = student.getnusnet();
+		String nusnetNum = student.getnusnetmatric();
 		if ((!nusnetNum.equals("")) && nusnetSet.contains(nusnetNum)) {
 			System.out.println("Encountered duplicate nusnet: " + nusnetNum);
 			System.out.println("Ignoring sudent ...");

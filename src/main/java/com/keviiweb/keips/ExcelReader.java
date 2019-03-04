@@ -179,17 +179,17 @@ public class ExcelReader {
 	}
 
 	private void parseNewStudent(List<String> row) {
-		String nusnet = row.get(StudentManager.EXCELSHEET_NUSNET_INDEX);
+		String nusnetmatric = row.get(StudentManager.EXCELSHEET_NUSNETMATRIC_INDEX);
 		String studentName = row.get(StudentManager.EXCELSHEET_NAME_INDEX);
-		String matric = row.get(StudentManager.EXCELSHEET_MATRIC_INDEX);
 		String gender = row.get(StudentManager.EXCELSHEET_GENDER_INDEX);
+		String semester = row.get(StudentManager.EXCELSHEET_SEMESTER_INDEX);
 
-		Student newStudent = new Student(nusnet, studentName, matric, gender);
+		Student newStudent = new Student(nusnetmatric, studentName, gender, semester);
 
 		manager.addToStudentList(newStudent);
 
-		System.out.println("added new student: " + nusnet + " name = " + studentName + " matric = " +
-				matric + " gender = " + gender);
+		System.out.println("added new student: " + nusnetmatric + " name = " + studentName + " matric = "
+                + " gender = " + gender);
 	}
 
 	//takes in as input the filename and parses the file
@@ -260,12 +260,9 @@ public class ExcelReader {
 	private void addStudentToSheet(Student student, Sheet sheet, int index) {
 		Row row = sheet.createRow(index);
 		Cell cell = row.createCell(0);
-		cell.setCellValue(student.getnusnet());
-		
+		cell.setCellValue(student.getnusnetmatric());
+
 		cell = row.createCell(1);
-		cell.setCellValue(student.getMatricNum());
-		
-		cell = row.createCell(2);
 		cell.setCellValue(student.getTotalPoints());
 	}
 	
