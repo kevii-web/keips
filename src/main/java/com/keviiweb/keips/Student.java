@@ -17,6 +17,7 @@ public class Student {
     protected List<CCA> ccaList;
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
+    private String magicNumber;
 
     public Student(String nusnet, String name, String matric, String sex) {
         this.nusnet = nusnet;
@@ -26,11 +27,11 @@ public class Student {
         this.ccaList = new ArrayList<>();
         this.bonusCcaList = new ArrayList<>();
     }
-    
+
     public void addToBonusCcaList(BonusCCA cca) {
     	this.bonusCcaList.add(cca);
 	}
-    
+
     public void addToCcaList(CCA newCca) {
     	this.ccaList.add(newCca);
 	}
@@ -71,26 +72,26 @@ public class Student {
         }
         return studentInfo.toString();
     }
-    
+
     public int calculateOsaPoints () {
-        osaPoints = new OSAPoints(this.ccaList);
+        osaPoints = new OSAPoints(this.ccaList, this.bonusCcaList);
         return osaPoints.calculate(this.semester);
     }
-    
+
     public String getName() {
     	return this.name;
 	}
-	
+
 	public String getnusnet() {
     	return this.nusnet;
 	}
-	
+
 	public String getMatricNum() {
     	return this.matricNum;
 	}
-	
+
 	public String getTotalPoints() { return String.valueOf(calculateTotalPoints());}
-	
+
 	public int calculateTotalPoints() {
     	int i = 0;
     	for (CCA cca : ccaList) {

@@ -13,21 +13,30 @@ public class OSAPoints {
     private static final int MAX_CCA_CATEGORY = 3;
     private static final int TOTAL_CCA_USED_FOR_POINTS = 4;
     private int totalOsaPoints;
+    private int totalBonusPoints;
     private boolean haveContrasting;
     List<CCA> ccaList;
-    
-    public OSAPoints (List<CCA> ccaList) {
+    List<BonusCCA> bonusList;
+
+    public OSAPoints (List<CCA> ccaList, List<BonusCCA> bonusList) {
         this.ccaList = ccaList;
+        this.bonusList = bonusList;
         totalOsaPoints = 0;
+        totalBonusPoints = 0;
     }
-    
+
     public int calculate(int sem) {
+
+        for(int i = 0; i < bonusList.size(); i++) {
+            totalBonusPoints += bonusList.get(i).getPts();
+        }
+
         Collections.sort(ccaList, new SortTotalPoints());
         int currentCcaAdded = 0;
         int numAdmin = 0;
         int numCulture = 0;
         int numSports = 0;
-        
+
         if(sem == 1) {
             if(haveContrasting()) {
                 this.haveContrasting = true;
@@ -36,7 +45,7 @@ public class OSAPoints {
 
                 for (int k = 0; k < modifiedList.size(); k++) {
                     if(currentCcaAdded == TOTAL_CCA_USED_FOR_POINTS) {
-                        return totalOsaPoints;
+                        return totalOsaPoints + totalBonusPoints;
                     }
                     CCA currentCCA = modifiedList.get(k);
                     String currentCategory = currentCCA.getCategory();
@@ -73,18 +82,19 @@ public class OSAPoints {
                     totalOsaPoints += ccaList.get(j).getTotalPoints();
                 }
                 if(totalOsaPoints > CCA_CATEGORY_CAP) {
-                    return CCA_CATEGORY_CAP;
+                    return CCA_CATEGORY_CAP + totalBonusPoints;
                 } else {
-                    return totalOsaPoints;
+                    return totalOsaPoints + totalBonusPoints;
                 }
             }
             return totalOsaPoints;
         } else if (sem == 2) {
+            List<CCA> modifiedSemesterPoints = changeOutstandingForSemTwo(ccaList);
             for(int p = 0; p < 4; p++) {
-                if(p < ccaList.size())
-                    totalOsaPoints += ccaList.get(p).getTotalPoints(); 
+                if(p < modifiedSemesterPoints.size())
+                    totalOsaPoints += modifiedSemesterPoints.get(p).getTotalPoints();
             }
-            return totalOsaPoints;
+            return totalOsaPoints + totalBonusPoints;
         } else {
             System.out.println("Invalid Semester Input. You did not stay in hall this sem. Be gone");
             return 0;
@@ -100,7 +110,7 @@ public class OSAPoints {
         int adminCCAs = 0;
         int cultureCCAs = 0;
         int sportsCCAs = 0;
-        
+
         for (int i = 0; i < ccaList.size(); i++) {
             String category = ccaList.get(i).getCategory();
             if(category.equals("Admin")) {
@@ -129,7 +139,7 @@ public class OSAPoints {
         int currentSports = 0;
         String categoryCCA;
         CCA cca;
-        
+
         for(int i = 0; i < ccaList.size(); i++) {
             cca = modifiedList.get(i);
             categoryCCA = cca.getCategory();
@@ -152,6 +162,25 @@ public class OSAPoints {
                     currentSports += cca.getTotalPoints();
                 }
             }
+        }
+        return modifiedList;
+    }
+
+    /**
+     * Multiples outstanding points x 2 and caps it at 3.
+     */
+    public List<CCA> changeOutstandingForSemTwo(List<CCA> ccaList) {
+        ArrayList<CCA> modifiedList = new ArrayList<>(ccaList);
+        int outstandingPts;
+
+        for(int i = 0; i < modifiedList.size(); i++) {
+            outstandingPts = modifiedList.get(i).getOutstandingPoints();
+            outstandingPts *= 2;
+            if (outstandingPts > 3) {
+                outstandingPts = 3;
+            }
+            modifiedList.get(i).setOutstandingPoints(outstandingPts);
+            modifiedList.get(i).recalculateTotalPoints();
         }
         return modifiedList;
     }
