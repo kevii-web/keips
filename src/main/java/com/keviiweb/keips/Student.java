@@ -83,18 +83,13 @@ public class Student {
     	return this.name;
 	}
 
-	public String getnusnet() {
-    	return this.nusnet;
-	}
-
-	public String getMatricNum() {
-    	return this.matricNum;
-	
 	public String getnusnetmatric() {
     	return this.nusnetmatric;
 	}
 
-	public String getTotalPoints() { return String.valueOf(calculateTotalPoints());}
+	public String getTotalPoints() {
+	  return String.valueOf(calculateTotalPoints());
+	}
 
 	public int calculateTotalPoints() {
     	int i = 0;

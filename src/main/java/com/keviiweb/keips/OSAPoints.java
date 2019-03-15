@@ -89,10 +89,10 @@ public class OSAPoints {
             }
             return totalOsaPoints;
         } else if (sem == 2) {
-            List<CCA> modifiedSemesterPoints = changeOutstandingForSemTwo(ccaList);
+            //List<CCA> modifiedSemesterPoints = changeOutstandingForSemTwo(ccaList);
             for(int p = 0; p < 4; p++) {
-                if(p < modifiedSemesterPoints.size())
-                    totalOsaPoints += modifiedSemesterPoints.get(p).getTotalPoints();
+                if(p < ccaList.size())
+                    totalOsaPoints += ccaList.get(p).getTotalPoints();
             }
             return totalOsaPoints + totalBonusPoints;
         } else {
