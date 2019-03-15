@@ -165,7 +165,6 @@ public class OSAPoints {
         }
         return modifiedList;
     }
-
     /**
      * Multiples outstanding points x 2 and caps it at 3.
      */
