@@ -31,13 +31,25 @@ public class CCA {
     public int getTotalPoints() {
         return totalPoints;
     }
-    
+
     public String getCategory() {
         return category;
     }
-    
+
     public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
+    }
+
+    public int getOutstandingPoints() {
+        return outstandingPoints;
+    }
+
+    public void setOutstandingPoints(int outstandingPoints) {
+        this.outstandingPoints = outstandingPoints;
+    }
+
+    public void recalculateTotalPoints() {
+        this.totalPoints = attendancePoints + performancePoints + outstandingPoints;
     }
 
 }
