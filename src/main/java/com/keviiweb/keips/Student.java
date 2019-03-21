@@ -27,6 +27,12 @@ public class Student {
         this.bonusCcaList = new ArrayList<>();
     }
 
+    public Student(String semester) {
+        this.semester = semester;
+        this.ccaList = new ArrayList<>();
+        this.bonusCcaList = new ArrayList<>();
+    }
+
     public void addToBonusCcaList(BonusCCA cca) {
     	this.bonusCcaList.add(cca);
 	}

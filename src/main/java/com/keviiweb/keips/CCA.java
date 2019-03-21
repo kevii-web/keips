@@ -22,6 +22,11 @@ public class CCA {
         this.totalPoints = attendancePoints + performancePoints + outstandingPoints;
     }
 
+    public CCA(String category, int totalPoints) {
+        this.category = category;
+        this.totalPoints = totalPoints;
+    }
+
     public String toString() {
         String pointsString = String.format("Name: %s, Category: %s, Attendance = %d, Performance = %d, Outstanding = %d, " +
                         "Total = %d", name, category, attendancePoints, performancePoints, outstandingPoints, totalPoints);
