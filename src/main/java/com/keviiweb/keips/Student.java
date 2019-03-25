@@ -28,6 +28,16 @@ public class Student {
         this.bonusCcaList = new ArrayList<>();
     }
 
+    // Overloaded constructor to remove matric number
+    public Student(Student toClone) {
+        this.magicNumber = toClone.magicNumber;
+        this.name = toClone.name;
+        this.semester = toClone.semester;
+        this.gender = toClone.gender;
+        this.ccaList = toClone.ccaList;
+        this.bonusCcaList = toClone.bonusCcaList;
+    }
+
     public Student(String semester) {
         this.semester = semester;
         this.ccaList = new ArrayList<>();

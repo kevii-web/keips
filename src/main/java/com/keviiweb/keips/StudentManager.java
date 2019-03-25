@@ -131,7 +131,8 @@ public class StudentManager {
 	public String printasjson() {
 		Map<String, Student> studentsMap = new HashMap<>();
 		for (Student stu : studentList) {
-			studentsMap.put(stu.getMagicNumber(), stu);
+			Student clone = new Student(stu);
+			studentsMap.put(clone.getMagicNumber(), clone);
 		}
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
