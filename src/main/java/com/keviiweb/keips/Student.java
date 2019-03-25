@@ -9,7 +9,8 @@ import com.google.gson.Gson;
  * Student class to represent each student's details and his/her list of CCAs.
  */
 public class Student {
-    private String nusnetmatric;
+    private String matric;
+    private String magicNumber;
     private String name;
     private Gender gender;
     private String semester;
@@ -17,8 +18,9 @@ public class Student {
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
 
-    public Student(String nusnetmatric, String name, String sex, String semester) {
-        this.nusnetmatric = nusnetmatric;
+    public Student(String matric, String magicNumber, String name, String sex, String semester) {
+        this.matric = matric;
+        this.magicNumber = magicNumber;
         this.name = name;
         this.semester = semester;
         this.gender = Gender.getGender(sex);
@@ -47,7 +49,7 @@ public class Student {
     }
 
     public String toString() {
-        String student = String.format("NUSNETMATRIC: %s, Name = %s\nCCAS:\n", nusnetmatric, name);
+        String student = String.format("NUSNETMATRIC: %s, Name = %s\nCCAS:\n", magicNumber, name);
         StringBuilder studentInfo = new StringBuilder(student);
         for (CCA cca : ccaList) {
             studentInfo.append(cca);
@@ -69,9 +71,13 @@ public class Student {
     	return this.name;
 	}
 
-	public String getnusnetmatric() {
-    	return this.nusnetmatric;
+	public String getMagicNumber() {
+    	return this.magicNumber;
 	}
+
+	public String getMatric() {
+        return this.matric;
+    }
 
 	public String getTotalPoints() {
 	  return String.valueOf(calculateTotalPoints());

@@ -1,8 +1,5 @@
 package com.keviiweb.keips;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +41,7 @@ public class TestJSON {
 
         Map<String, Student> studentsMap = new HashMap<>();
         for (Student stu : studentsList) {
-            studentsMap.put(stu.getnusnetmatric(), stu);
+            studentsMap.put(stu.getMagicNumber(), stu);
         }
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -1,6 +1,5 @@
 package com.keviiweb.keips;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -189,16 +188,17 @@ public class ExcelReader {
     }
 
     private void parseNewStudent(List<String> row) {
-        String nusnetmatric = row.get(StudentManager.EXCELSHEET_NUSNETMATRIC_INDEX);
-        String studentName = row.get(StudentManager.EXCELSHEET_NAME_INDEX);
-        String gender = row.get(StudentManager.EXCELSHEET_GENDER_INDEX);
-        String semester = row.get(StudentManager.EXCELSHEET_SEMESTER_INDEX);
+        String matric = row.get(StudentManager.RESIDENT_LIST_MATRIC_INDEX);
+        String magicNumber = row.get(StudentManager.RESIDENT_LIST_MAGICNUMBER_INDEX);
+        String studentName = row.get(StudentManager.RESIDENT_LIST_NAME_INDEX);
+        String gender = row.get(StudentManager.RESIDENT_LIST_GENDER_INDEX);
+        String semester = row.get(StudentManager.RESIDENT_LIST_SEMESTER_INDEX);
 
-        Student newStudent = new Student(nusnetmatric, studentName, gender, semester);
+        Student newStudent = new Student(matric, magicNumber, studentName, gender, semester);
 
         manager.addToStudentList(newStudent);
 
-        System.out.println("added new student: " + nusnetmatric + " name = " + studentName + " matric = "
+        System.out.println("added new student: " + magicNumber + " name = " + studentName + " matric = "
                 + " gender = " + gender);
     }
 
@@ -270,7 +270,7 @@ public class ExcelReader {
     private void addStudentToSheet(Student student, Sheet sheet, int index) {
         Row row = sheet.createRow(index);
         Cell cell = row.createCell(0);
-        cell.setCellValue(student.getnusnetmatric());
+        cell.setCellValue(student.getMagicNumber());
 
         cell = row.createCell(1);
         cell.setCellValue(student.getTotalPoints());
