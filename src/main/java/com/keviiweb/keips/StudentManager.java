@@ -1,9 +1,14 @@
 package com.keviiweb.keips;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.HashSet;
 import java.lang.StringBuilder;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class StudentManager {
 	
@@ -118,10 +123,13 @@ public class StudentManager {
 	
 	//converts the students list into a json object and returns it
 	public String printasjson() {
-		StringBuilder studentString = new StringBuilder();
-		for (int i = 0; i < studentList.size(); i++) {
-			studentString.append(Student.toJson(studentList.get(i)));
+		Map<String, Student> studentsMap = new HashMap<>();
+		for (Student stu : studentList) {
+			studentsMap.put(stu.getnusnetmatric(), stu);
 		}
-		return studentString.toString();
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String json = gson.toJson(studentsMap);
+		return json;
 	}
 }

@@ -2,7 +2,7 @@ User Guide:
 
 **WARNING**
 SET UP ENVRIONMENT
-1. ensure the residents list is in the proper format (nusnet, matric, name, gender, semester)
+1. ensure the residents list is in the proper format (nusnet, magicnum, name, gender, semester)
 2. ensure the cca list is in the proper format:
 	Sheet 1: nusnet, matric, name, gender, semster, category, cca name, attendance, performance, outstanding
 	Sheet 2: nusnet, matric, name, bonus points, description
@@ -23,10 +23,17 @@ Commands supported:
 print - prints out the student list into console
 printtoexcel - prints out the students nusnet and matric and totalpoints to an excel file
 -1 - terminates the programme
-printtojson - prints out the students as a json object 
+printtojson - prints out the students as a json object and saves to output.json
 readallfiles - reads all files and parses them
 
 
 
 Dev Guide:
 sorry we're not paid enough to do this. go figure out the code yourself
+
+MY NAME IS JEFF
+MY NAME IS JEFF
+MY NAME IS JEFF
+MY NAME IS JEFF
+MY NAME IS JEFF
+MY NAME IS JEFF

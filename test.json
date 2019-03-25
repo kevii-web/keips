@@ -1,0 +1,69 @@
+{
+  "5629086A": {
+    "nusnetmatric": "5629086A",
+    "name": "ABC AONG",
+    "gender": "F",
+    "semester": "2",
+    "ccaList": [
+      {
+        "name": "Rag",
+        "category": "Admin",
+        "attendancePoints": 12,
+        "performancePoints": 30,
+        "outstandingPoints": 1,
+        "totalPoints": 43
+      },
+      {
+        "name": "Ball",
+        "category": "Sports",
+        "attendancePoints": 6,
+        "performancePoints": 1,
+        "outstandingPoints": 4,
+        "totalPoints": 11
+      }
+    ],
+    "bonusCcaList": []
+  },
+  "6667026K": {
+    "nusnetmatric": "6667026K",
+    "name": "Thomas King",
+    "gender": "M",
+    "semester": "2",
+    "ccaList": [
+      {
+        "name": "Rag",
+        "category": "Admin",
+        "attendancePoints": 10,
+        "performancePoints": 5,
+        "outstandingPoints": 3,
+        "totalPoints": 18
+      }
+    ],
+    "bonusCcaList": []
+  },
+  "5519086W": {
+    "nusnetmatric": "5519086W",
+    "name": "Ong Yu-He",
+    "gender": "M",
+    "semester": "1",
+    "ccaList": [
+      {
+        "name": "Flag",
+        "category": "Admin",
+        "attendancePoints": 10,
+        "performancePoints": 10,
+        "outstandingPoints": 10,
+        "totalPoints": 30
+      },
+      {
+        "name": "Web",
+        "category": "Admin",
+        "attendancePoints": 6,
+        "performancePoints": 1,
+        "outstandingPoints": 3,
+        "totalPoints": 10
+      }
+    ],
+    "bonusCcaList": []
+  }
+}

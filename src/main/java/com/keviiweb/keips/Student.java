@@ -16,7 +16,6 @@ public class Student {
     protected List<CCA> ccaList;
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
-    private String magicNumber;
 
     public Student(String nusnetmatric, String name, String sex, String semester) {
         this.nusnetmatric = nusnetmatric;
@@ -47,28 +46,14 @@ public class Student {
         return student;
     }
 
-    public static void main(String[] args) {
-        // Serialize
-        Student test = new Student("E0175519", "Ong Yu-He", "M", "1");
-        CCA testCCA = new CCA("Flag", "Admin", 10, 10, 10);
-        test.ccaList.add(testCCA);
-        String result = Student.toJson(test);
-
-        System.out.println(result);
-
-        // Deserialize
-        System.out.println("Deserializing");
-        Student testStudent = Student.fromJson(result);
-        System.out.println(testStudent);
-    }
-
     public String toString() {
-        String student = String.format("NUSNET: %s, Name = %s, Matric = %s\nCCAS:\n", nusnetmatric, name);
+        String student = String.format("NUSNETMATRIC: %s, Name = %s\nCCAS:\n", nusnetmatric, name);
         StringBuilder studentInfo = new StringBuilder(student);
         for (CCA cca : ccaList) {
             studentInfo.append(cca);
             studentInfo.append("\n");
         }
+        studentInfo.append("Total points: " + getTotalPoints());
         return studentInfo.toString();
     }
 
@@ -80,6 +65,7 @@ public class Student {
     }
 
     public String getName() {
+
     	return this.name;
 	}
 

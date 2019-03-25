@@ -19,4 +19,4 @@
 .idea/*.iml
 .idea/modules
 
-.class
+*.class
