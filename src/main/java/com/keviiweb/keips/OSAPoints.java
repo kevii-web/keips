@@ -79,7 +79,9 @@ public class OSAPoints {
             } else {
                 this.haveContrasting = false;
                 for(int j = 0; j < TOTAL_CCA_USED_FOR_POINTS; j++) {
-                    totalOsaPoints += ccaList.get(j).getTotalPoints();
+                    if(j <= ccaList.size() - 1) {
+                        totalOsaPoints += ccaList.get(j).getTotalPoints();
+                    }
                 }
                 if(totalOsaPoints > CCA_CATEGORY_CAP) {
                     return CCA_CATEGORY_CAP + totalBonusPoints;
@@ -89,10 +91,13 @@ public class OSAPoints {
             }
             return totalOsaPoints;
         } else if (sem == 2) {
-            //List<CCA> modifiedSemesterPoints = changeOutstandingForSemTwo(ccaList);
+            System.out.println(ccaList);
+            this.haveContrasting = true;
             for(int p = 0; p < 4; p++) {
-                if(p < ccaList.size())
+                if(p < ccaList.size()) {
+                    //System.out.println(ccaList.get(p).getTotalPoints());
                     totalOsaPoints += ccaList.get(p).getTotalPoints();
+                }
             }
             return totalOsaPoints + totalBonusPoints;
         } else {
