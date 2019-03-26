@@ -127,9 +127,13 @@ public class StudentManager {
 	}
 
 	public void printStudentList() {
-		for (int i = 0; i < studentList.size(); i++) {
-			System.out.println(studentList.get(i).toString());
-		}
+		//for (int i = 0; i < studentList.size(); i++) {
+		//	System.out.println(studentList.get(i).toString());
+		//}
+        List<Student> sortedList = getSortedList(studentList);
+        for (Student s : sortedList) {
+            System.out.println(s.toString());
+        }
 	}
 
 	public List<Student> getAllStudents() {
@@ -164,14 +168,25 @@ public class StudentManager {
             @Override
             public int compare(Student o1, Student o2) {
                 if (o1.calculateTotalPoints() < o2.calculateTotalPoints()) {
-                    return -1;
-                } else if (o1.calculateTotalPoints() == o2.calculateTotalPoints()) {
                     return 1;
+                } else if (o1.calculateTotalPoints() > o2.calculateTotalPoints()) {
+                    return -1;
                 } else {
                     return 0;
                 }
             }
         } );
+
+	    //give everyone their original index
+	    for (int i = 0; i < copy.size(); i++) {
+            copy.get(i).setRank(i + 1);
+        }
+        //for those with same points as the previous one set the same rank
+        for (int i = 1; i < copy.size(); i++) {
+	        if (copy.get(i).calculateTotalPoints() >= copy.get(i - 1).calculateTotalPoints()) {
+	            copy.get(i).setRank(copy.get(i-1).getRank());
+            }
+        }
 
 	    return copy;
 
