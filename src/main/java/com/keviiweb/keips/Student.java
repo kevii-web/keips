@@ -16,6 +16,7 @@ public class Student {
     protected List<CCA> ccaList;
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
+    private boolean haveContrasting;
     private String magicNumber;
 
     public Student(String nusnetmatric, String name, String sex, String semester) {
@@ -78,11 +79,16 @@ public class Student {
         return studentInfo.toString();
     }
 
+    public boolean isHaveContrasting() {
+        return haveContrasting;
+    }
+
     //calculates the Osa points based on the semester he/she came in
     public int calculateOsaPoints () {
         osaPoints = new OSAPoints(this.ccaList, this.bonusCcaList);
-        return osaPoints.calculate(Integer.parseInt(this.semester));
-
+        int points = osaPoints.calculate(Integer.parseInt(this.semester));
+        this.haveContrasting = osaPoints.isHaveContrasting();
+        return points;
     }
 
     public String getName() {

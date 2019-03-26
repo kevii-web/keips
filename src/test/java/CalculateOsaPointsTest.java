@@ -8,6 +8,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CalculateOsaPointsTest {
 
     @Test
+    public void lessThan4NoContrasting() {
+        CCA cca1 = new CCA("Sports", 16);
+        CCA cca2 = new CCA("Sports", 12);
+        CCA cca4 = new CCA("Sports", 12);
+
+        Student student1 = new Student("1");
+        student1.addToCcaList(cca1);
+        student1.addToCcaList(cca2);
+        student1.addToCcaList(cca4);
+
+        assertEquals(40, student1.calculateOsaPoints());
+        assertEquals(false, student1.isHaveContrasting());
+    }
+
+    @Test
+    public void lessThan4Contrasting() {
+        CCA cca1 = new CCA("Sports", 16);
+        CCA cca2 = new CCA("Sports", 12);
+        CCA cca4 = new CCA("Culture", 12);
+
+        Student student1 = new Student("1");
+        student1.addToCcaList(cca1);
+        student1.addToCcaList(cca2);
+        student1.addToCcaList(cca4);
+
+        assertEquals(40, student1.calculateOsaPoints());
+        assertEquals(true, student1.isHaveContrasting());
+    }
+
+    @Test
     public void fourOrLessCCAsWithoutHittingCap() {
 
         CCA cca1 = new CCA("Sports", 16);

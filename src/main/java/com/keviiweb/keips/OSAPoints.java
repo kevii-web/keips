@@ -128,8 +128,10 @@ public class OSAPoints {
         }
         int totalCCA = ccaList.size();
         if((totalCCA == adminCCAs) || (totalCCA == cultureCCAs) || (totalCCA == sportsCCAs)) {
+            this.haveContrasting = false;
             return false;
         }
+        this.haveContrasting = true;
         return true;
     }
 
@@ -187,5 +189,9 @@ public class OSAPoints {
             modifiedList.get(i).recalculateTotalPoints();
         }
         return modifiedList;
+    }
+
+    public boolean isHaveContrasting() {
+        return haveContrasting;
     }
 }
