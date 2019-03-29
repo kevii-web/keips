@@ -9,18 +9,22 @@ import com.google.gson.Gson;
  * Student class to represent each student's details and his/her list of CCAs.
  */
 public class Student {
-    private String nusnetmatric;
+    private String matric;
+    private String magicNumber;
     private String name;
     private Gender gender;
     private String semester;
+    private int ranking = -1;
     protected List<CCA> ccaList;
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
     private boolean haveContrasting;
     private String magicNumber;
 
-    public Student(String nusnetmatric, String name, String sex, String semester) {
-        this.nusnetmatric = nusnetmatric;
+
+    public Student(String matric, String magicNumber, String name, String sex, String semester) {
+        this.matric = matric;
+        this.magicNumber = magicNumber;
         this.name = name;
         this.semester = semester;
         this.gender = Gender.getGender(sex);
@@ -28,10 +32,36 @@ public class Student {
         this.bonusCcaList = new ArrayList<>();
     }
 
+    public Student(String matric, String magicNumber, String name, String sex, String semester, int ranking) {
+        this.matric = matric;
+        this.magicNumber = magicNumber;
+        this.name = name;
+        this.semester = semester;
+        this.gender = Gender.getGender(sex);
+        this.ccaList = new ArrayList<>();
+        this.bonusCcaList = new ArrayList<>();
+        this.ranking = ranking;
+    }
+
+    // Overloaded constructor to remove matric number
+    public Student(Student toClone) {
+        this.magicNumber = toClone.magicNumber;
+        this.name = toClone.name;
+        this.semester = toClone.semester;
+        this.gender = toClone.gender;
+        this.ccaList = toClone.ccaList;
+        this.bonusCcaList = toClone.bonusCcaList;
+        this.ranking = toClone.ranking;
+    }
+
     public Student(String semester) {
         this.semester = semester;
         this.ccaList = new ArrayList<>();
         this.bonusCcaList = new ArrayList<>();
+    }
+
+    public void setRank(int rank) {
+        this.ranking = rank;
     }
 
     public void addToBonusCcaList(BonusCCA cca) {
@@ -54,28 +84,15 @@ public class Student {
         return student;
     }
 
-    public static void main(String[] args) {
-        // Serialize
-        Student test = new Student("E0175519", "Ong Yu-He", "M", "1");
-        CCA testCCA = new CCA("Flag", "Admin", 10, 10, 10);
-        test.ccaList.add(testCCA);
-        String result = Student.toJson(test);
-
-        System.out.println(result);
-
-        // Deserialize
-        System.out.println("Deserializing");
-        Student testStudent = Student.fromJson(result);
-        System.out.println(testStudent);
-    }
-
     public String toString() {
-        String student = String.format("NUSNET: %s, Name = %s, Matric = %s\nCCAS:\n", nusnetmatric, name);
+        String student = String.format("NUSNETMATRIC: %s, Name = %s\nCCAS:\n", magicNumber, name);
         StringBuilder studentInfo = new StringBuilder(student);
         for (CCA cca : ccaList) {
             studentInfo.append(cca);
             studentInfo.append("\n");
         }
+        studentInfo.append("Total points: " + getTotalPoints()).append("\n");
+        studentInfo.append(ranking);
         return studentInfo.toString();
     }
 
@@ -92,12 +109,21 @@ public class Student {
     }
 
     public String getName() {
+
     	return this.name;
 	}
 
-	public String getnusnetmatric() {
-    	return this.nusnetmatric;
+	public int getRank() {
+        return this.ranking;
+    }
+
+	public String getMagicNumber() {
+    	return this.magicNumber;
 	}
+
+	public String getMatric() {
+        return this.matric;
+    }
 
 	public String getTotalPoints() {
 	  return String.valueOf(calculateTotalPoints());
