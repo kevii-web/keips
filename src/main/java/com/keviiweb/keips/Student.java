@@ -14,6 +14,7 @@ public class Student {
     private String name;
     private Gender gender;
     private String semester;
+    private int ranking = -1;
     protected List<CCA> ccaList;
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
@@ -28,6 +29,17 @@ public class Student {
         this.bonusCcaList = new ArrayList<>();
     }
 
+    public Student(String matric, String magicNumber, String name, String sex, String semester, int ranking) {
+        this.matric = matric;
+        this.magicNumber = magicNumber;
+        this.name = name;
+        this.semester = semester;
+        this.gender = Gender.getGender(sex);
+        this.ccaList = new ArrayList<>();
+        this.bonusCcaList = new ArrayList<>();
+        this.ranking = ranking;
+    }
+
     // Overloaded constructor to remove matric number
     public Student(Student toClone) {
         this.magicNumber = toClone.magicNumber;
@@ -36,12 +48,17 @@ public class Student {
         this.gender = toClone.gender;
         this.ccaList = toClone.ccaList;
         this.bonusCcaList = toClone.bonusCcaList;
+        this.ranking = toClone.ranking;
     }
 
     public Student(String semester) {
         this.semester = semester;
         this.ccaList = new ArrayList<>();
         this.bonusCcaList = new ArrayList<>();
+    }
+
+    public void setRank(int rank) {
+        this.ranking = rank;
     }
 
     public void addToBonusCcaList(BonusCCA cca) {
@@ -71,7 +88,8 @@ public class Student {
             studentInfo.append(cca);
             studentInfo.append("\n");
         }
-        studentInfo.append("Total points: " + getTotalPoints());
+        studentInfo.append("Total points: " + getTotalPoints()).append("\n");
+        studentInfo.append(ranking);
         return studentInfo.toString();
     }
 
@@ -86,6 +104,10 @@ public class Student {
 
     	return this.name;
 	}
+
+	public int getRank() {
+        return this.ranking;
+    }
 
 	public String getMagicNumber() {
     	return this.magicNumber;

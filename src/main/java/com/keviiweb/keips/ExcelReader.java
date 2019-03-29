@@ -1,5 +1,7 @@
 package com.keviiweb.keips;
 
+import static com.keviiweb.keips.StudentManager.EXCELSHEET_MATRIC_INDEX;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +35,7 @@ public class ExcelReader {
     private StudentManager manager;
 
     public static final String MASTER_FILE = "READDATA.txt";
-    public static final String DIRECTORY_SHEET = "sheet/";
+    public static final String DIRECTORY_SHEET = "sheets/";
     public static final int EXCELSHEET_MAIN_INDEX = 0;
     public static final int EXCELSHEET_BONUS_INDEX = 1;
 
@@ -77,6 +79,7 @@ public class ExcelReader {
                     continue;
                 } catch (IOException e) {
                     System.out.println("Cannot find " + DIRECTORY_SHEET + MASTER_FILE);
+                    continue;
                 }
             }
 
@@ -120,9 +123,10 @@ public class ExcelReader {
                 }
                 continue;
             }
-
+            fileName = DIRECTORY_SHEET + fileName;
             //first file is the resident list
             if (isResidentList) {
+
                 isResidentList = false;
                 if (!parseResidentList(fileName)) {
                     System.out.println("Cannot find resident list file.");
@@ -196,10 +200,12 @@ public class ExcelReader {
 
         Student newStudent = new Student(matric, magicNumber, studentName, gender, semester);
 
-        manager.addToStudentList(newStudent);
-
-        System.out.println("added new student: " + magicNumber + " name = " + studentName + " matric = "
-                + " gender = " + gender);
+         if (manager.addToStudentList(newStudent)) {
+             System.out.println("added new student: " + magicNumber + " name = " + studentName + " matric = "
+                     + " gender = " + gender);
+         } else {
+             System.out.println("Encountered duplicate student: " + matric);
+         }
     }
 
     //takes in as input the filename and parses the file
@@ -227,6 +233,8 @@ public class ExcelReader {
             if (!parseSheet(sheetiterator.next(), EXCELSHEET_MAIN_INDEX)) {
                 System.out.println("Error parsing main sheet.");
                 return false;
+            } else {
+                System.out.println("successfully parsed main sheet.");
             }
         }
         //parse the second sheet of data
@@ -234,7 +242,10 @@ public class ExcelReader {
             if (!parseSheet(sheetiterator.next(), EXCELSHEET_BONUS_INDEX)) {
                 System.out.println("Error parsing bonus sheet.");
                 return false;
+            } else {
+                System.out.println("successfully parsed bonus sheet.");
             }
+
         }
 
         try {
@@ -261,7 +272,10 @@ public class ExcelReader {
                 String cellText = formatter.formatCellValue(currentCell);
                 nameRow.add(cellText);
             }
-            manager.ProcessStudent(nameRow, sheetNumber);
+            if (nameRow.size() > 2) {
+                manager.ProcessStudent(nameRow, sheetNumber);
+            }
+
         }
         return true;
     }

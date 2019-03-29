@@ -1,5 +1,8 @@
 package com.keviiweb.keips;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
@@ -31,8 +34,8 @@ public class StudentManager {
 	public static final int EXCELSHEET_PERFORMANCE_INDEX = 8;
 	public static final int EXCELSHEET_OUTSTANDING_INDEX = 9;
 
-	public static final int EXCELSHEET_BONUS_INDEX = 2;
-	public static final int EXCELSHEET_BONUS_DESCP_INDEX = 3;
+	public static final int EXCELSHEET_BONUS_INDEX = 3;
+	public static final int EXCELSHEET_BONUS_DESCP_INDEX = 4;
 
 	/*
 	 *Takes in the data of a student and calculates the OSA points as well as the room draw points
@@ -84,6 +87,15 @@ public class StudentManager {
 		}
 	}
 
+	public boolean contains(String student) {
+	    for (Student s : studentList) {
+	        if (student.equals(s.getName())) {
+	            return true;
+            }
+        }
+        return false;
+    }
+
 	private void processBonusPts(Student stu, String bonusPts, String description) {
 		int bonusPtsInteger = Integer.parseInt(bonusPts);
 		BonusCCA bonusCca = new BonusCCA(bonusPtsInteger, description);
@@ -102,35 +114,39 @@ public class StudentManager {
 		stu.addToCcaList(newCCA);
 	}
 
-	public void addToStudentList(Student student) {
+	public boolean addToStudentList(Student student) {
 		//check that the resident is not already inside the list of residents
 		//coz i was too lazy and my test data has duplicates
 		String studentMatric = student.getMatric();
 		if ((!studentMatric.equals("")) && matricHashSet.contains(studentMatric)) {
-			System.out.println("Encountered duplicate nusnet: " + studentMatric);
-			System.out.println("Ignoring sudent ...");
-			return;
-		} else {
-			matricHashSet.add(studentMatric);
+			return false;
 		}
+		matricHashSet.add(studentMatric);
 		this.studentList.add(student);
+		return true;
 	}
 
 	public void printStudentList() {
-		for (int i = 0; i < studentList.size(); i++) {
-			System.out.println(studentList.get(i).toString());
-		}
+		//for (int i = 0; i < studentList.size(); i++) {
+		//	System.out.println(studentList.get(i).toString());
+		//}
+        List<Student> sortedList = getSortedList(studentList);
+        for (Student s : sortedList) {
+            System.out.println(s.toString());
+        }
 	}
 
 	public List<Student> getAllStudents() {
 		return this.studentList;
 	}
 
-
 	//converts the students list into a json object and returns it
 	public String printasjson() {
 		Map<String, Student> studentsMap = new HashMap<>();
-		for (Student stu : studentList) {
+
+		List<Student> sortedList = getSortedList(studentList);
+
+		for (Student stu : sortedList) {
 			Student clone = new Student(stu);
 			studentsMap.put(clone.getMagicNumber(), clone);
 		}
@@ -139,4 +155,40 @@ public class StudentManager {
 		String json = gson.toJson(studentsMap);
 		return json;
 	}
+
+
+	public List<Student> getSortedList(List<Student> originalList) {
+
+	    List<Student> copy = new ArrayList<>();
+	    for (int i = 0; i < originalList.size(); i++) {
+	        copy.add(new Student(originalList.get(i)));
+        }
+
+        Collections.sort(copy,new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                if (o1.calculateTotalPoints() < o2.calculateTotalPoints()) {
+                    return 1;
+                } else if (o1.calculateTotalPoints() > o2.calculateTotalPoints()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        } );
+
+	    //give everyone their original index
+	    for (int i = 0; i < copy.size(); i++) {
+            copy.get(i).setRank(i + 1);
+        }
+        //for those with same points as the previous one set the same rank
+        for (int i = 1; i < copy.size(); i++) {
+	        if (copy.get(i).calculateTotalPoints() >= copy.get(i - 1).calculateTotalPoints()) {
+	            copy.get(i).setRank(copy.get(i-1).getRank());
+            }
+        }
+
+	    return copy;
+
+    }
 }
