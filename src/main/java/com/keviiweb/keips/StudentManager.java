@@ -37,6 +37,9 @@ public class StudentManager {
 	public static final int EXCELSHEET_BONUS_INDEX = 3;
 	public static final int EXCELSHEET_BONUS_DESCP_INDEX = 4;
 
+	public static final int ROOMDRAWSHEET_MATRIC_INDEX = 1;
+	public static final int ROOMDRAWSHEET_EXISTINGPOINTS_INDEX = 4;
+
 	/*
 	 *Takes in the data of a student and calculates the OSA points as well as the room draw points
 	 *
@@ -44,6 +47,7 @@ public class StudentManager {
 	 */
 	public void ProcessStudent(List<String> nameRow, int sheetNumber) {
 		String matric = nameRow.get(EXCELSHEET_MATRIC_INDEX);
+		String name = nameRow.get(EXCELSHEET_NAME_INDEX);
 		Student thisStudent = null;
 		int i;
 		for (i = 0; i < studentList.size(); i++) {
@@ -83,7 +87,8 @@ public class StudentManager {
 		}
 		if (i == studentList.size()) {
 			//if we cant find the student, return an error
-			System.out.println("Unable to find student: " + matric);
+			String s = String.format("Unable to find student: %s with matric: %s", name, matric);
+			System.out.println(s);
 		}
 	}
 
@@ -191,4 +196,29 @@ public class StudentManager {
 	    return copy;
 
     }
+
+	/*
+	 * Adds previous year's room draw points to each Student
+	 */
+	public void ProcessStudentRoomDraw(List<String> nameRow) {
+		String matric = nameRow.get(ROOMDRAWSHEET_MATRIC_INDEX);
+		Student thisStudent = null;
+		int i;
+		for (i = 0; i < studentList.size(); i++) {
+			if (!matric.equalsIgnoreCase(studentList.get(i).getMatric())) {
+				continue;
+			} else {	//once a student is found, start to process the info
+				thisStudent = studentList.get(i);
+				int existingRoomDrawPoints = Integer.parseInt(nameRow.get(ROOMDRAWSHEET_EXISTINGPOINTS_INDEX));
+				thisStudent.addRoomwDrawPoints(existingRoomDrawPoints);
+				String s = String.format("Added %d points to %s", existingRoomDrawPoints, thisStudent.getName());
+				System.out.println(s);
+				return;
+			}
+		}
+		if (i == studentList.size()) {
+			//if we cant find the student, return an error
+			System.out.println("Unable to find student: " + matric);
+		}
+	}
 }

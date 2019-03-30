@@ -22,5 +22,6 @@
 *.class
 
 sheets/
+sheet/
 *.xlsx
 *.json

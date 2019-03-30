@@ -9,6 +9,8 @@ import com.google.gson.Gson;
  * Student class to represent each student's details and his/her list of CCAs.
  */
 public class Student {
+    public static final int TOTAL_RESIDENTS = 544;
+
     private String matric;
     private String magicNumber;
     private String name;
@@ -21,6 +23,7 @@ public class Student {
     private boolean haveContrasting;
     private int roomDrawPoints;
     private int osaPointsCount;
+    private double percentile;
 
     public Student(String matric, String magicNumber, String name, String sex, String semester) {
         this.matric = matric;
@@ -53,8 +56,9 @@ public class Student {
         this.bonusCcaList = toClone.bonusCcaList;
         this.ranking = toClone.ranking;
         this.osaPointsCount = calculateOsaPoints();
-        this.roomDrawPoints = calculateTotalPoints();
+        this.roomDrawPoints += calculateTotalPoints();
         this.osaPoints = null;
+        this.percentile = calculatePercentile(this.ranking);
     }
 
     // Used for testing
@@ -140,6 +144,10 @@ public class Student {
 	  return String.valueOf(calculateTotalPoints());
 	}
 
+	public void addRoomwDrawPoints(int points) {
+        this.roomDrawPoints += points;
+    }
+
 	public int calculateTotalPoints() {
     	int i = 0;
     	for (CCA cca : ccaList) {
@@ -150,6 +158,10 @@ public class Student {
 		}
 		return i;
 	}
+
+	private double calculatePercentile(int rank) {
+        return ((TOTAL_RESIDENTS - rank + 1) / TOTAL_RESIDENTS) * 100;
+    }
 }
 
 enum Gender {
