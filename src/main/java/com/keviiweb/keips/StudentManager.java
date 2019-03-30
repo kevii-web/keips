@@ -47,7 +47,7 @@ public class StudentManager {
 		Student thisStudent = null;
 		int i;
 		for (i = 0; i < studentList.size(); i++) {
-			if (!matric.equals(studentList.get(i).getMatric())) {
+			if (!matric.equalsIgnoreCase(studentList.get(i).getMatric())) {
 				continue;
 			} else {	//once a student is found, start to process the info
 				thisStudent = studentList.get(i);

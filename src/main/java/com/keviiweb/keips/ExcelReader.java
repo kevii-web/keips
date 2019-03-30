@@ -226,6 +226,7 @@ public class ExcelReader {
             return false;
         }
 
+        System.out.println("Parsing sheet: " + fileName);
         Iterator<Sheet> sheetiterator = workbook.sheetIterator();
 
         //parse the first sheet of data
@@ -270,6 +271,10 @@ public class ExcelReader {
             while (cellIterator.hasNext()) {
                 Cell currentCell = cellIterator.next();
                 String cellText = formatter.formatCellValue(currentCell);
+                // stops reading when cell is marked
+                if (cellText.equals("done")) {
+                    return true;
+                }
                 nameRow.add(cellText);
             }
             if (nameRow.size() > 2) {

@@ -19,8 +19,8 @@ public class Student {
     protected List<BonusCCA> bonusCcaList;
     private OSAPoints osaPoints;
     private boolean haveContrasting;
-    private String magicNumber;
-
+    private int roomDrawPoints;
+    private int osaPointsCount;
 
     public Student(String matric, String magicNumber, String name, String sex, String semester) {
         this.matric = matric;
@@ -52,8 +52,11 @@ public class Student {
         this.ccaList = toClone.ccaList;
         this.bonusCcaList = toClone.bonusCcaList;
         this.ranking = toClone.ranking;
+        this.osaPointsCount = calculateOsaPoints();
+        this.roomDrawPoints = calculateTotalPoints();
     }
 
+    // Used for testing
     public Student(String semester) {
         this.semester = semester;
         this.ccaList = new ArrayList<>();
