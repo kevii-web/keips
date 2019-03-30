@@ -102,6 +102,13 @@ public class Student {
 
     //calculates the Osa points based on the semester he/she came in
     public int calculateOsaPoints () {
+
+        for(int i = 0; i < this.ccaList.size(); i++) {
+            if(this.ccaList.get(i).getTotalPoints() > 17) {
+                System.out.println("Error in points input");
+                return -1;
+            }
+        }
         osaPoints = new OSAPoints(this.ccaList, this.bonusCcaList);
         int points = osaPoints.calculate(Integer.parseInt(this.semester));
         this.haveContrasting = osaPoints.isHaveContrasting();
