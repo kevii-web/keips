@@ -137,6 +137,7 @@ public class StudentManager {
 		//}
         List<Student> sortedList = getSortedList(studentList);
         for (Student s : sortedList) {
+        	s.setPercentile(s.getRank());
             System.out.println(s.toString());
         }
 	}
@@ -153,6 +154,7 @@ public class StudentManager {
 
 		for (Student stu : sortedList) {
 			Student clone = new Student(stu);
+			clone.setPercentile(stu.getRank());
 			studentsMap.put(clone.getMagicNumber(), clone);
 		}
 

@@ -111,9 +111,10 @@ public class ExcelReader {
                     FileOutputStream outFile = new FileOutputStream(new File("output.xlsx"));
                     Workbook outWorkbook = new XSSFWorkbook();
                     Sheet sheet = outWorkbook.createSheet();
-                    List<Student> students = manager.getAllStudents();
-                    for (int i = 0; i < students.size(); i++) {
-                        addStudentToSheet(students.get(i), sheet, i);
+                    List<Student> unsortedStudents = manager.getAllStudents();
+                    List<Student> sortedList = manager.getSortedList(unsortedStudents);
+                    for (int i = 0; i < sortedList.size(); i++) {
+                        addStudentToSheet(sortedList.get(i), sheet, i);
                     }
                     outWorkbook.write(outFile);
                     workbook.close();
@@ -337,12 +338,26 @@ public class ExcelReader {
 
     //adds a student to a xlsx workbook sheet in the specified index
     private void addStudentToSheet(Student student, Sheet sheet, int index) {
+        student.setPercentile(student.getRank());
+
         Row row = sheet.createRow(index);
         Cell cell = row.createCell(0);
         cell.setCellValue(student.getMagicNumber());
 
         cell = row.createCell(1);
+        cell.setCellValue(student.getName());
+
+        cell = row.createCell(2);
+        cell.setCellValue(student.getOSAPoints());
+
+        cell = row.createCell(3);
         cell.setCellValue(student.getTotalPoints());
+
+        cell = row.createCell(4);
+        cell.setCellValue(student.getRank());
+
+        cell = row.createCell(5);
+        cell.setCellValue(student.getPercentile());
     }
 
 }

@@ -58,7 +58,6 @@ public class Student {
         this.osaPointsCount = calculateOsaPoints();
         this.roomDrawPoints += calculateTotalPoints();
         this.osaPoints = null;
-        this.percentile = calculatePercentile(this.ranking);
     }
 
     // Used for testing
@@ -144,6 +143,10 @@ public class Student {
 	  return String.valueOf(calculateTotalPoints());
 	}
 
+	public String getOSAPoints() { return String.valueOf(this.osaPointsCount); }
+
+    public String getPercentile() { return String.valueOf(this.percentile); }
+
 	public void addRoomwDrawPoints(int points) {
         this.roomDrawPoints += points;
     }
@@ -159,8 +162,9 @@ public class Student {
 		return i;
 	}
 
-	private double calculatePercentile(int rank) {
-        return ((TOTAL_RESIDENTS - rank + 1) / TOTAL_RESIDENTS) * 100;
+	public void setPercentile(int rank) {
+        double result = ((TOTAL_RESIDENTS - rank + 1) / TOTAL_RESIDENTS) * 100;
+        this.percentile = result;
     }
 }
 
