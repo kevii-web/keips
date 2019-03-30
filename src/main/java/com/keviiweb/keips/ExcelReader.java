@@ -94,7 +94,7 @@ public class ExcelReader {
             //print to a json object and file
             if (fileName.equals("printtojson")) {
                 String json = manager.printasjson();
-                System.out.println(json);
+                //System.out.println(json);
 
                 try {
                     Files.write(Paths.get("output.json"), json.getBytes());
@@ -111,8 +111,7 @@ public class ExcelReader {
                     FileOutputStream outFile = new FileOutputStream(new File("output.xlsx"));
                     Workbook outWorkbook = new XSSFWorkbook();
                     Sheet sheet = outWorkbook.createSheet();
-                    List<Student> unsortedStudents = manager.getAllStudents();
-                    List<Student> sortedList = manager.getSortedList(unsortedStudents);
+                    List<Student> sortedList = manager.getSortedList();
                     for (int i = 0; i < sortedList.size(); i++) {
                         addStudentToSheet(sortedList.get(i), sheet, i);
                     }

@@ -163,8 +163,16 @@ public class StudentManager {
 		return json;
 	}
 
+	public List<Student> getSortedList() {
+		List<Student> clonedList = new ArrayList<>();
+		for (Student stu : studentList) {
+			Student clone = new Student(stu);
+			clonedList.add(clone);
+		}
+		return getSortedList(clonedList);
+	}
 
-	public List<Student> getSortedList(List<Student> originalList) {
+	private List<Student> getSortedList(List<Student> originalList) {
 
 	    List<Student> copy = new ArrayList<>();
 	    for (int i = 0; i < originalList.size(); i++) {
@@ -212,15 +220,13 @@ public class StudentManager {
 			} else {	//once a student is found, start to process the info
 				thisStudent = studentList.get(i);
 				int existingRoomDrawPoints = Integer.parseInt(nameRow.get(ROOMDRAWSHEET_EXISTINGPOINTS_INDEX));
-				thisStudent.addRoomwDrawPoints(existingRoomDrawPoints);
-				String s = String.format("Added %d points to %s", existingRoomDrawPoints, thisStudent.getName());
-				System.out.println(s);
+				thisStudent.setOldRoomDrawPoints(existingRoomDrawPoints);
 				return;
 			}
 		}
 		if (i == studentList.size()) {
 			//if we cant find the student, return an error
-			System.out.println("Unable to find student: " + matric);
+			System.out.println("Unable to find student when adding points: " + matric);
 		}
 	}
 }
