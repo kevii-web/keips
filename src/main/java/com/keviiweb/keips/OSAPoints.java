@@ -140,7 +140,15 @@ public class OSAPoints {
      * @return modified list
      */
     public ArrayList<CCA> modifyList () {
-        ArrayList<CCA> modifiedList = new ArrayList<>(ccaList);
+        CCA ccaAdd;
+        ArrayList<CCA> modifiedList = new ArrayList<>();
+        for(int i = 0; i < ccaList.size(); i++) {
+            int total = ccaList.get(i).getTotalPoints();
+            String category = ccaList.get(i).getCategory();
+            ccaAdd = new CCA(category, total);
+            modifiedList.add(ccaAdd);
+        }
+
         int currentAdmin = 0;
         int currentCulture = 0;
         int currentSports = 0;
