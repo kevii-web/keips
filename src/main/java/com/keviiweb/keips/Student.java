@@ -54,6 +54,7 @@ public class Student {
         this.ranking = toClone.ranking;
         this.osaPointsCount = calculateOsaPoints();
         this.roomDrawPoints = calculateTotalPoints();
+        this.osaPoints = null;
     }
 
     // Used for testing
