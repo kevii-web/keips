@@ -355,16 +355,13 @@ public class ExcelReader {
         cell.setCellValue(Integer.parseInt(student.getOSAPoints()));
 
         cell = row.createCell(currCellIndex++);
-        cell.setCellValue(Integer.parseInt(student.getTotalPoints()));
+        cell.setCellValue(Integer.parseInt(student.getTotalPoints()) + student.getOldRoomDrawPoints());
 
         cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getRank());
 
         cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getPercentile());
-
-        cell = row.createCell(currCellIndex++);
-        cell.setCellValue(student.getOldRoomDrawPoints());
     }
 
     // creates headers for xlsx

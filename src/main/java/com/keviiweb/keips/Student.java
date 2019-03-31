@@ -10,7 +10,7 @@ import com.google.gson.Gson;
  */
 public class Student {
     private static final int TOTAL_FEMALES = 224;
-    private static final int TOTAL_MALES = 200;
+    private static final int TOTAL_MALES = 244;
 
     private String matric;
     private String magicNumber;
