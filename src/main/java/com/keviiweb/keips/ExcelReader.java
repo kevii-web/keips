@@ -87,7 +87,7 @@ public class ExcelReader {
 
             //print out to console
             if (fileName.equals("print")) {
-                manager.printStudentList();
+                //manager.printStudentList();
                 continue;
             }
 
@@ -105,13 +105,14 @@ public class ExcelReader {
                 continue;
             }
 
-            //creates a new excel file called output.xlsx and prints out the students total points
+            // creates a new excel file called output.xlsx and prints out the students total points
             if (fileName.equals("printtoexcel")) {
                 try {
                     FileOutputStream outFile = new FileOutputStream(new File("output.xlsx"));
                     Workbook outWorkbook = new XSSFWorkbook();
                     Sheet sheet = outWorkbook.createSheet();
-                    List<Student> sortedList = manager.getSortedList();
+                    List<Student> sortedList = manager.getRankedList();
+                    addHeaderToSheet(sheet);
                     for (int i = 0; i < sortedList.size(); i++) {
                         addStudentToSheet(sortedList.get(i), sheet, i);
                     }
@@ -339,24 +340,56 @@ public class ExcelReader {
     private void addStudentToSheet(Student student, Sheet sheet, int index) {
         student.setPercentile(student.getRank());
 
-        Row row = sheet.createRow(index);
-        Cell cell = row.createCell(0);
+        Row row = sheet.createRow(index + 1);
+        int currCellIndex = 0;
+        Cell cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getMagicNumber());
 
-        cell = row.createCell(1);
+        cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getName());
 
-        cell = row.createCell(2);
-        cell.setCellValue(student.getOSAPoints());
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue(student.getGender());
 
-        cell = row.createCell(3);
-        cell.setCellValue(student.getTotalPoints());
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue(Integer.parseInt(student.getOSAPoints()));
 
-        cell = row.createCell(4);
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue(Integer.parseInt(student.getTotalPoints()));
+
+        cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getRank());
 
-        cell = row.createCell(5);
+        cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getPercentile());
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue(student.getOldRoomDrawPoints());
     }
 
+    // creates headers for xlsx
+    private void addHeaderToSheet(Sheet sheet) {
+        Row row = sheet.createRow(0);
+        int currCellIndex = 0;
+        Cell cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Magic Number");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Name");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Gender");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("OSA Points");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Room Draw Points");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Rank");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Percentile");
+    }
 }

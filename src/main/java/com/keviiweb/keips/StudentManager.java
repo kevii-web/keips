@@ -131,6 +131,7 @@ public class StudentManager {
 		return true;
 	}
 
+	/* TODO
 	public void printStudentList() {
 		//for (int i = 0; i < studentList.size(); i++) {
 		//	System.out.println(studentList.get(i).toString());
@@ -140,7 +141,7 @@ public class StudentManager {
         	s.setPercentile(s.getRank());
             System.out.println(s.toString());
         }
-	}
+	}*/
 
 	public List<Student> getAllStudents() {
 		return this.studentList;
@@ -175,15 +176,23 @@ public class StudentManager {
 		return json;
 	}
 
-	public List<Student> getSortedList() {
+
+	public List<Student> getRankedList() {
 		List<Student> clonedList = new ArrayList<>();
-		for (Student stu : studentList) {
+		List<Student> finalList = new ArrayList<>();
+
+		clonedList.addAll(getMaleList(studentList));
+		clonedList.addAll(getFemaleList(studentList));
+
+		for (Student stu : clonedList) {
 			Student clone = new Student(stu);
-			clonedList.add(clone);
+			clone.setPercentile(stu.getRank());
+			finalList.add(clone);
 		}
-		return getSortedList(clonedList);
+		return finalList;
 	}
 
+    /*
 	private List<Student> getSortedList(List<Student> originalList) {
 
 	    List<Student> copy = new ArrayList<>();
@@ -216,7 +225,7 @@ public class StudentManager {
         }
 
 	    return copy;
-    }
+    }*/
 
     private List<Student> getMaleList(List<Student> originalList) {
 
@@ -230,9 +239,9 @@ public class StudentManager {
         Collections.sort(copy,new Comparator<Student>() {
             @Override
             public int compare(Student o1, Student o2) {
-                if (o1.calculateTotalPoints() < o2.calculateTotalPoints()) {
+                if (o1.calculateOsaPoints() < o2.calculateOsaPoints()) {
                     return 1;
-                } else if (o1.calculateTotalPoints() > o2.calculateTotalPoints()) {
+                } else if (o1.calculateOsaPoints() > o2.calculateOsaPoints()) {
                     return -1;
                 } else {
                     return 0;
@@ -246,7 +255,7 @@ public class StudentManager {
         }
         //for those with same points as the previous one set the same rank
         for (int i = 1; i < copy.size(); i++) {
-            if (copy.get(i).calculateTotalPoints() >= copy.get(i - 1).calculateTotalPoints()) {
+            if (copy.get(i).calculateOsaPoints() >= copy.get(i - 1).calculateOsaPoints()) {
                 copy.get(i).setRank(copy.get(i-1).getRank());
             }
         }
@@ -266,9 +275,9 @@ public class StudentManager {
         Collections.sort(copy,new Comparator<Student>() {
             @Override
             public int compare(Student o1, Student o2) {
-                if (o1.calculateTotalPoints() < o2.calculateTotalPoints()) {
+                if (o1.calculateOsaPoints() < o2.calculateOsaPoints()) {
                     return 1;
-                } else if (o1.calculateTotalPoints() > o2.calculateTotalPoints()) {
+                } else if (o1.calculateOsaPoints() > o2.calculateOsaPoints()) {
                     return -1;
                 } else {
                     return 0;
@@ -282,7 +291,7 @@ public class StudentManager {
         }
         //for those with same points as the previous one set the same rank
         for (int i = 1; i < copy.size(); i++) {
-            if (copy.get(i).calculateTotalPoints() >= copy.get(i - 1).calculateTotalPoints()) {
+            if (copy.get(i).calculateOsaPoints() >= copy.get(i - 1).calculateOsaPoints()) {
                 copy.get(i).setRank(copy.get(i-1).getRank());
             }
         }

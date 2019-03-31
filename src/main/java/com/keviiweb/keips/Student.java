@@ -9,7 +9,8 @@ import com.google.gson.Gson;
  * Student class to represent each student's details and his/her list of CCAs.
  */
 public class Student {
-    public static final int TOTAL_RESIDENTS = 438;
+    private static final int TOTAL_FEMALES = 224;
+    private static final int TOTAL_MALES = 200;
 
     private String matric;
     private String magicNumber;
@@ -60,8 +61,7 @@ public class Student {
         this.ranking = toClone.ranking;
         this.osaPointsCount = calculateOsaPoints();
         this.oldRoomDrawPoints = toClone.oldRoomDrawPoints;
-        this.newRoomDrawPoints = toClone.oldRoomDrawPoints + calculateTotalPoints();
-        System.out.println(calculateOsaPoints());
+        this.newRoomDrawPoints = calculateNewRoomDrawPoints();
         this.osaPoints = null;
     }
 
@@ -117,12 +117,11 @@ public class Student {
     }
 
     //calculates the Osa points based on the semester he/she came in
-    public int calculateOsaPoints () {
+    public int calculateOsaPoints() {
 
         for(int i = 0; i < this.ccaList.size(); i++) {
             if(this.ccaList.get(i).getTotalPoints() > 17) {
-                System.out.println("Student exceeds 17 points. Student is: " + this.name);
-                return -1;
+                System.err.println("Student exceeds 17 points. Student is: " + this.name);
             }
         }
         osaPoints = new OSAPoints(this.ccaList, this.bonusCcaList);
@@ -174,11 +173,24 @@ public class Student {
 	}
 
 	public void setPercentile(int rank) {
-        double totalResidents = TOTAL_RESIDENTS;
+        double totalResidents = 0;
+        if (this.gender == Gender.F) {
+            totalResidents = TOTAL_FEMALES;
+        } else if (this.gender == Gender.M) {
+            totalResidents = TOTAL_MALES;
+        }
         double result = ((totalResidents - rank + 1) / totalResidents) * 100;
         String s = String.format("Rank %d, percentile: %f", rank, result);
         //System.out.println(s);
         this.percentile = result;
+    }
+
+    private int calculateNewRoomDrawPoints() {
+        return this.oldRoomDrawPoints + calculateTotalPoints();
+    }
+
+    public int getOldRoomDrawPoints() {
+        return this.oldRoomDrawPoints;
     }
 }
 
