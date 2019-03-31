@@ -150,13 +150,25 @@ public class StudentManager {
 	public String printasjson() {
 		Map<String, Student> studentsMap = new HashMap<>();
 
-		List<Student> sortedList = getSortedList(studentList);
+		//List<Student> sortedList = getSortedList(studentList);
+        List<Student> males = getMaleList(studentList);
 
-		for (Student stu : sortedList) {
+		for (Student stu : males) {
 			Student clone = new Student(stu);
 			clone.setPercentile(stu.getRank());
 			studentsMap.put(clone.getMagicNumber(), clone);
 		}
+
+        List<Student> females = getFemaleList(studentList);
+
+        for (Student stu : females) {
+            Student clonefemales = new Student(stu);
+            clonefemales.setPercentile(stu.getRank());
+            studentsMap.put(clonefemales.getMagicNumber(), clonefemales);
+        }
+
+        System.out.println("No of guys: " + males.size());
+        System.out.println("No of girls: " + females.size());
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json = gson.toJson(studentsMap);
@@ -204,7 +216,78 @@ public class StudentManager {
         }
 
 	    return copy;
+    }
 
+    private List<Student> getMaleList(List<Student> originalList) {
+
+        List<Student> copy = new ArrayList<>();
+        for (int i = 0; i < originalList.size(); i++) {
+            if (originalList.get(i).getGender().equals("M")) {
+                copy.add(new Student(originalList.get(i)));
+            }
+        }
+
+        Collections.sort(copy,new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                if (o1.calculateTotalPoints() < o2.calculateTotalPoints()) {
+                    return 1;
+                } else if (o1.calculateTotalPoints() > o2.calculateTotalPoints()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        } );
+
+        //give everyone their original index
+        for (int i = 0; i < copy.size(); i++) {
+            copy.get(i).setRank(i + 1);
+        }
+        //for those with same points as the previous one set the same rank
+        for (int i = 1; i < copy.size(); i++) {
+            if (copy.get(i).calculateTotalPoints() >= copy.get(i - 1).calculateTotalPoints()) {
+                copy.get(i).setRank(copy.get(i-1).getRank());
+            }
+        }
+
+        return copy;
+    }
+
+    private List<Student> getFemaleList(List<Student> originalList) {
+
+        List<Student> copy = new ArrayList<>();
+        for (int i = 0; i < originalList.size(); i++) {
+            if (originalList.get(i).getGender().equals("F")) {
+                copy.add(new Student(originalList.get(i)));
+            }
+        }
+
+        Collections.sort(copy,new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                if (o1.calculateTotalPoints() < o2.calculateTotalPoints()) {
+                    return 1;
+                } else if (o1.calculateTotalPoints() > o2.calculateTotalPoints()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        } );
+
+        //give everyone their original index
+        for (int i = 0; i < copy.size(); i++) {
+            copy.get(i).setRank(i + 1);
+        }
+        //for those with same points as the previous one set the same rank
+        for (int i = 1; i < copy.size(); i++) {
+            if (copy.get(i).calculateTotalPoints() >= copy.get(i - 1).calculateTotalPoints()) {
+                copy.get(i).setRank(copy.get(i-1).getRank());
+            }
+        }
+
+        return copy;
     }
 
 	/*

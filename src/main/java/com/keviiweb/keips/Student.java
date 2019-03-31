@@ -72,6 +72,10 @@ public class Student {
         this.bonusCcaList = new ArrayList<>();
     }
 
+    public String getGender() {
+        return gender.toString();
+    }
+
     public void setRank(int rank) {
         this.ranking = rank;
     }
