@@ -362,6 +362,9 @@ public class ExcelReader {
 
         cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getPercentile());
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue(student.getSemester());
     }
 
     // creates headers for xlsx
@@ -388,5 +391,8 @@ public class ExcelReader {
 
         cell = row.createCell(currCellIndex++);
         cell.setCellValue("Percentile");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Semester");
     }
 }

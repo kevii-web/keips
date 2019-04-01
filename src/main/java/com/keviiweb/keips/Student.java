@@ -192,6 +192,10 @@ public class Student {
     public int getOldRoomDrawPoints() {
         return this.oldRoomDrawPoints;
     }
+
+    public String getSemester() {
+        return semester;
+    }
 }
 
 enum Gender {

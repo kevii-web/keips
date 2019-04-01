@@ -46,7 +46,7 @@ public class StudentManager {
 	 *Returns updated student object
 	 */
 	public void ProcessStudent(List<String> nameRow, int sheetNumber) {
-		String matric = nameRow.get(EXCELSHEET_MATRIC_INDEX);
+		String matric = nameRow.get(EXCELSHEET_MATRIC_INDEX).trim();
 		String name = nameRow.get(EXCELSHEET_NAME_INDEX);
 		Student thisStudent = null;
 		int i;
@@ -303,7 +303,7 @@ public class StudentManager {
 	 * Adds previous year's room draw points to each Student
 	 */
 	public void ProcessStudentRoomDraw(List<String> nameRow) {
-		String matric = nameRow.get(ROOMDRAWSHEET_MATRIC_INDEX);
+		String matric = nameRow.get(ROOMDRAWSHEET_MATRIC_INDEX).trim();
 		Student thisStudent = null;
 		int i;
 		for (i = 0; i < studentList.size(); i++) {
