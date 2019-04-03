@@ -58,7 +58,7 @@ public class StudentManager {
 
 				if (sheetNumber == ExcelReader.EXCELSHEET_MAIN_INDEX) {
 					String ccaName = nameRow.get(EXCELSHEET_CCANAME_INDEX);
-					String category = nameRow.get(EXCELSHEET_CATEGORY_INDEX);
+					String category = nameRow.get(EXCELSHEET_CATEGORY_INDEX).trim();
 					String attendancePts = nameRow.get(EXCELSHEET_ATTENDANCE_INDEX);
 					String performancePts = nameRow.get(EXCELSHEET_PERFORMANCE_INDEX);
 					String outstandingPts = nameRow.get(EXCELSHEET_OUTSTANDING_INDEX);

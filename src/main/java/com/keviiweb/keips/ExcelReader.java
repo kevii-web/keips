@@ -365,6 +365,9 @@ public class ExcelReader {
 
         cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getSemester());
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue(student.isHaveContrasting());
     }
 
     // creates headers for xlsx
@@ -394,5 +397,8 @@ public class ExcelReader {
 
         cell = row.createCell(currCellIndex++);
         cell.setCellValue("Semester");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Contrasting CCAs?");
     }
 }
