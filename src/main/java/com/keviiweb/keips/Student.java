@@ -52,6 +52,7 @@ public class Student {
 
     // Overloaded constructor to remove matric number
     public Student(Student toClone) {
+        //this.matric = toClone.matric;
         this.magicNumber = toClone.magicNumber;
         this.name = toClone.name;
         this.semester = toClone.semester;

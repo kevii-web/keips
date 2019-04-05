@@ -66,7 +66,7 @@ public class OSAPoints {
                             numCulture++;
                             currentCcaAdded++;
                         }
-                    } else {
+                    } else if (currentCategory.equals("Sports")) {
                         if(numSports == MAX_CCA_CATEGORY) {
                             continue;
                         } else {
@@ -74,6 +74,9 @@ public class OSAPoints {
                             numSports++;
                             currentCcaAdded++;
                         }
+                    } else {
+                        System.err.println("Unknown CCA category");
+                        System.exit(1);
                     }
                 }
             } else {

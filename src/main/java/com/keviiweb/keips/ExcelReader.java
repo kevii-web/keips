@@ -346,6 +346,9 @@ public class ExcelReader {
         cell.setCellValue(student.getMagicNumber());
 
         cell = row.createCell(currCellIndex++);
+        cell.setCellValue(student.getMatric());
+
+        cell = row.createCell(currCellIndex++);
         cell.setCellValue(student.getName());
 
         cell = row.createCell(currCellIndex++);
@@ -376,6 +379,9 @@ public class ExcelReader {
         int currCellIndex = 0;
         Cell cell = row.createCell(currCellIndex++);
         cell.setCellValue("Magic Number");
+
+        cell = row.createCell(currCellIndex++);
+        cell.setCellValue("Matric No.");
 
         cell = row.createCell(currCellIndex++);
         cell.setCellValue("Name");
